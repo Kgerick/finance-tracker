@@ -47,7 +47,23 @@ def list_transactions():
         print(f"{index}. {tx['date']} | {tx['category']} | ${tx['amount']:.2f} | {tx['description']}")
 
 
+def show_summary():
+    print("\n==== Summary ====")
 
+    if not transactions:
+        print("No transactions yet")
+        return
+    
+    total = 0
+    for tx in transactions:
+        total += tx["amount"]
+
+    count = len(transactions)
+    average = total / count
+
+    print(f"Number of transactions: {count}")
+    print(f"Total spent: ${total:.2f}")
+    print(f"Average transaction: ${average:.2f}")
 
 
 def main():
@@ -59,7 +75,7 @@ def main():
         elif choice == "2":
             list_transactions()
         elif choice == "3":
-            print("You chose: View Summary")
+            show_summary()
         elif choice == "4":
             print("Goodbye.")
             break
