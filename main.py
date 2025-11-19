@@ -1,5 +1,14 @@
 transactions = []
 
+
+
+def show_menu():
+    print("\n==== Finance Tracker ====")
+    print("1) Add transaction")
+    print("2) View all transactions")
+    print("3) View Summary")
+    print("4) Exit")
+
 def add_transaction():
     print("\n==== Add Transaction ====")
     date = input("Date (YYYY-DD-MM): ")
@@ -26,12 +35,20 @@ def add_transaction():
 
     print("\n Transaction added!")
 
-def show_menu():
-    print("\n==== Finance Tracker ====")
-    print("1) Add transaction")
-    print("2) View all transactions")
-    print("3) View Summary")
-    print("4) Exit")
+
+def list_transactions():
+    print("\n==== All Transactions ====")
+
+    if not transactions:
+        print("No transactions yet.")
+        return
+    
+    for index, tx in enumerate(transactions, start=1):
+        print(f"{index}. {tx['date']} | {tx['category']} | ${tx['amount']:.2f} | {tx['description']}")
+
+
+
+
 
 def main():
     while True:
@@ -40,7 +57,7 @@ def main():
         if choice == "1":
             add_transaction()
         elif choice == "2":
-            print("You chose: View all transactions")
+            list_transactions()
         elif choice == "3":
             print("You chose: View Summary")
         elif choice == "4":
