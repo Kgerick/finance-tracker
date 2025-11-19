@@ -1,4 +1,20 @@
+import json
+import os
+
 transactions = []
+
+def save_transactions():
+    with open("transactions.json", "w") as f:
+        json.dump(transactions, f, indent=4)
+
+def load_transactions():
+    if not os.path.exists("transactions.json"):
+        return
+
+    with open("transactions.json", "r") as f:
+        data = json.load(f)
+
+    transactions.extend(data)
 
 
 
@@ -67,6 +83,7 @@ def show_summary():
 
 
 def main():
+    load_transactions()
     while True:
         show_menu()
         choice = input("Choose an option (1-4): ")
@@ -77,7 +94,8 @@ def main():
         elif choice == "3":
             show_summary()
         elif choice == "4":
-            print("Goodbye.")
+            save_transactions()
+            print("Saved. Goodbye.")
             break
         else:
             print("Invalid. Try again.")
