@@ -1,48 +1,5 @@
-from dataclasses import dataclass
-from typing import List
-import json
-import os
-
-@dataclass
-class Transaction:
-    date: str
-    category: str
-    amount: float
-    description: str
-
-
-
-transactions: List[Transaction] = []
-
-def save_transactions():
-    data = [tx.__dict__ for tx in transactions]
-
-    with open("transactions.json", "w") as f:
-        json.dump(data, f, indent=4)
-
-def load_transactions():
-    if not os.path.exists("transactions.json"):
-        return
-
-    try:
-        with open("transactions.json", "r") as f:
-            data = json.load(f)
-
-        for item in data:
-            tx = Transaction(
-                date=item["date"],
-                category=item["category"],
-                amount=item["amount"],
-                description=item["description"]
-            )
-
-        transactions.append(tx)
-
-    except Exception as e:
-        print("Could not load saved transactions")
-        print("Reason: ", e)
-
-
+from transactions import add_transaction, list_transactions, show_summary
+from storage import load_transactions, save_transactions
 
 def show_menu():
     print("\n==== Finance Tracker ====")
@@ -51,65 +8,9 @@ def show_menu():
     print("3) View Summary")
     print("4) Exit")
 
-def add_transaction():
-    print("\n==== Add Transaction ====")
-    date = input("Date (YYYY-DD-MM): ")
-    category = input("Category (e.g. Groceries, Rent, Gas)")
-
-    while True:
-        amount_str = input("Amount (e.g. 123.43, 25.66, 12.99)")
-        try:
-            amount = float(amount_str)
-            break
-        except ValueError:
-            print("That isnt a valid number.")
-
-    description = input("Short Description: ")
-
-    transaction = Transaction(
-        date=date,
-        category=category,
-        amount=amount,
-        description=description
-    )
-
-    transactions.append(transaction)
-
-    print("\n Transaction added!")
-
-
-def list_transactions():
-    print("\n==== All Transactions ====")
-
-    if not transactions:
-        print("No transactions yet.")
-        return
-    
-    for index, tx in enumerate(transactions, start=1):
-        print(f"{index}. {tx.date} | {tx.category} | ${tx.amount:.2f} | {tx.description}")
-
-
-def show_summary():
-    print("\n==== Summary ====")
-
-    if not transactions:
-        print("No transactions yet")
-        return
-    
-    total = 0
-    for tx in transactions:
-        total += tx.amount
-
-    count = len(transactions)
-    average = total / count
-
-    print(f"Number of transactions: {count}")
-    print(f"Total spent: ${total:.2f}")
-    print(f"Average transaction: ${average:.2f}")
-
-
 def main():
     load_transactions()
+
     while True:
         show_menu()
         choice = input("Choose an option (1-4): ")
