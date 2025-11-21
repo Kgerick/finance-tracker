@@ -64,3 +64,40 @@ def show_summary():
     print(f"Number of transactions: {count}")
     print(f"Total spent: ${total:.2f}")
     print(f"Average transaction: ${average:.2f}")
+
+    def get_transaction_count() -> int:
+        return len(transactions)
+    
+    def delete_transaction_by_index(index: int) -> bool:
+        internal_index = index - 1
+
+        if 0 <= internal_index < len(transactions):
+            transactions.pop(internal_index)
+            return True
+        
+        return False
+    
+    def update_transaction_by_index(
+            index: int,
+            date: str | None = None,
+            category: str | None = None,
+            amount: float | None = None,
+            description: str | None = None
+    ) -> bool:
+        internal_index = index - 1
+
+        if not (0 <= internal_index < len(transactions)):
+            return False
+        
+        tx = transactions[internal_index]
+
+        if date is not None:
+            tx.date = date
+        if category is not None:
+            tx.category = category
+        if amount is not None:
+            tx.amount = amount
+        if description is not None:
+            tx.description = description
+        
+        return True
