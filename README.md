@@ -2,7 +2,7 @@
 A simple personal finance tracker written in python.
 Includes a Flask API backend to use as future web or mobile app.
 
-## features
+## Features
 
 - Add and delete transactions
 - List all transactions
@@ -16,7 +16,7 @@ Includes a Flask API backend to use as future web or mobile app.
 - JSON
 - Flask
 
-## structure
+## Structure
 - app.py
 - main.py
 - storage.py
