@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request
 from transactions import (
     Transaction, 
     transactions,
+    delete_transaction_by_index,
+    update_transaction_by_index
 )
 from storage import load_transactions, save_transactions
 
@@ -58,8 +60,6 @@ def get_summary():
         "average": average
     })
 
-if __name__ == "__main__":
-    app.run(debug=True)
 
 @app.delete("/transactions/<int:index>")
 def delete_transaction(index: int):
@@ -111,3 +111,6 @@ def summary_by_category():
         totals[tx.category] = totals.get(tx.category, 0.0) + tx.amount
 
     return jsonify(totals)
+
+if __name__ == "__main__":
+    app.run(debug=True)
