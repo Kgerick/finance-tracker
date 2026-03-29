@@ -2,15 +2,16 @@ from flask import Flask, jsonify, request
 from transactions import (
     Transaction, 
     transactions,
-    get_transaction_count,
-    delete_transaction_by_index,
-    update_transaction_by_index
 )
 from storage import load_transactions, save_transactions
 
 app = Flask(__name__)
 
 load_transactions()
+
+@app.get("/")
+def home():
+    return jsonify({"message": "Finance tracker API is running"})
 
 @app.get("/transactions")
 def get_transactions():
